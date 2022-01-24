@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] GameObject ghostPrefab;
+    [SerializeField] float fadeDelay = 1f;
     Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
     int currentLevelIndex = 0;
     PlayerController playerController;
     GhostMechanic ghostMechanic;
+    CameraFade cameraFade;
 
     void Awake() 
     {
         playerController = FindObjectOfType<PlayerController>();
         ghostMechanic = FindObjectOfType<GhostMechanic>();
+        cameraFade = FindObjectOfType<CameraFade>();
     }
 
     void Start() 
@@ -25,6 +28,23 @@ public class LevelManager : MonoBehaviour
     public List<Vector3> GetPositions()
     {
         return playerPositions[currentLevelIndex];
+    }
+
+    public void ProcessPlayerDeath()
+    {
+        StartCoroutine(LoadLevel());
+    }
+
+    IEnumerator LoadLevel()
+    {
+        cameraFade.FadeIn();
+
+        yield return new WaitForSeconds(fadeDelay);
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        cameraFade.FadeOut();
+
     }
 
     void OnTriggerEnter2D(Collider2D other) 

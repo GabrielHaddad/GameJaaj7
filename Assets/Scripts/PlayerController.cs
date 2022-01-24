@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     Vector3 clickedWorldPoint;
     Vector2 grapplePoint;
     bool isGrapling = false;
-
+    
     [Header("Movement")]
     [SerializeField] LayerMask isGround;
     [SerializeField] float runSpeed;
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [Header("Ghost Stalk")]
     [SerializeField] float registerPositionDelay = 0.5f;
     List<Vector3> playerPosition = new List<Vector3>();
+    bool endLevel = false;
 
     LevelManager levelManager;
 
@@ -67,7 +68,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
-        StartCoroutine(RegisterPlayerPosition());
+
+        if (!endLevel)
+        {
+            StartCoroutine(RegisterPlayerPosition());
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -150,7 +155,6 @@ public class PlayerController : MonoBehaviour
     {
 
         bool isTouchingGround = boxCollider2D.IsTouchingLayers(isGround);
-        rb2d.velocity = Vector2.zero;
 
         if (!isDashing && (isTouchingGround || isGrapling))
         {
@@ -194,11 +198,10 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator Dash()
-    {   
+    {
         isDashing = true;
         bool isPlayerNotMoving = Mathf.Abs(moveInput) < Mathf.Epsilon;
 
-        rb2d.velocity = Vector2.zero;
         rb2d.velocity = new Vector2(rb2d.velocity.x, 0f);
 
         Vector2 dashForce;
@@ -292,6 +295,14 @@ public class PlayerController : MonoBehaviour
         isGrapling = false;
 
         AddNewSpringJoint();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Ghost")
+        {
+            levelManager.ProcessPlayerDeath();
+        }
     }
 
 }

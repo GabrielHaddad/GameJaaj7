@@ -54,8 +54,10 @@ public class GhostMechanic : MonoBehaviour
         }
         else
         {
-            DisableMovement();
-            Destroy(gameObject);
+            //DisableMovement();
+            //Destroy(gameObject);
+            positionIndex = 0;
+            transform.position = playerPositions[0];
         }
     }
 
