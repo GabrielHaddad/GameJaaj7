@@ -45,10 +45,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ghost Stalk")]
     [SerializeField] float registerPositionDelay = 0.5f;
+    [SerializeField] float coolDownGhostCollision = 1f;
     List<Vector3> playerPosition = new List<Vector3>();
-    bool endLevel = false;
+    bool canCollideGhost = true;
 
-    LevelManager levelManager;
+    CameraFade cameraFade;
+    [SerializeField] float fadeDelayDeath = 0.5f;
 
     void Awake()
     {
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         joint2D = GetComponent<SpringJoint2D>();
 
-        levelManager = FindObjectOfType<LevelManager>();
+        cameraFade = FindObjectOfType<CameraFade>();
     }
 
     void Start()
@@ -69,10 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (!endLevel)
-        {
-            StartCoroutine(RegisterPlayerPosition());
-        }
+        StartCoroutine(RegisterPlayerPosition());
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -289,6 +288,35 @@ public class PlayerController : MonoBehaviour
         joint2D.breakForce = 5000f;
     }
 
+    void Die()
+    {
+        
+        StartCoroutine(CameraFadeDeath());
+        StartCoroutine(StopMovementPlayer(fadeDelayDeath));
+
+        transform.position = playerPosition[0];
+        playerPosition = new List<Vector3>();
+    }
+
+    IEnumerator CameraFadeDeath()
+    {
+        cameraFade.FadeIn();
+
+        yield return new WaitForSeconds(fadeDelayDeath);
+        
+        cameraFade.FadeOut();
+    }
+
+    IEnumerator StopCollisionGhost()
+    {
+        canCollideGhost = false;
+
+        yield return new WaitForSeconds(coolDownGhostCollision);
+
+        canCollideGhost = true;
+
+    }
+
     void OnJointBreak2D(Joint2D brokenJoint)
     {
         lineRenderer.enabled = false;
@@ -299,9 +327,10 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Ghost")
+        if (other.tag == "Ghost" && canCollideGhost)
         {
-            levelManager.ProcessPlayerDeath();
+            Die();
+            StartCoroutine(StopCollisionGhost());
         }
     }
 

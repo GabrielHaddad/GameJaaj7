@@ -8,18 +8,6 @@ public class GhostMechanic : MonoBehaviour
     int positionIndex = 0;
     bool canMove = false;
     List<Vector3> playerPositions;
-    LevelManager levelManager;
-
-    void Awake() 
-    {
-        levelManager = FindObjectOfType<LevelManager>();
-    }
-
-    void Start() 
-    {
-        EnableMovement();
-        playerPositions = levelManager.GetPositions();
-    }
 
     void Update() 
     {
@@ -37,6 +25,11 @@ public class GhostMechanic : MonoBehaviour
     public void DisableMovement()
     {
         canMove = false;
+    }
+
+    public void SetPlayerPositions(List<Vector3> positions)
+    {
+        playerPositions = positions;
     }
 
     void MoveGhost()

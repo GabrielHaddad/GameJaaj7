@@ -5,54 +5,62 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] GameObject ghostPrefab;
     [SerializeField] float fadeDelay = 1f;
-    Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
-    int currentLevelIndex = 0;
-    PlayerController playerController;
-    GhostMechanic ghostMechanic;
     CameraFade cameraFade;
+    bool loadedLevel = false;
+
+    static LevelManager instance;
+
+    void ManageSingleton()
+    {
+        if (instance != null)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     void Awake() 
     {
-        playerController = FindObjectOfType<PlayerController>();
-        ghostMechanic = FindObjectOfType<GhostMechanic>();
+        ManageSingleton();
         cameraFade = FindObjectOfType<CameraFade>();
     }
 
-    void Start() 
+    public void LoadNextLevel()
     {
-        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    public List<Vector3> GetPositions()
+    public int GetActiveSceneIndex()
     {
-        return playerPositions[currentLevelIndex];
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void ProcessPlayerDeath()
+    public bool HasLoadedLevel()
     {
-        StartCoroutine(LoadLevel());
+        return loadedLevel;
     }
 
-    IEnumerator LoadLevel()
+    IEnumerator LoadLevel(int sceneIndex)
     {
+        loadedLevel = false;
+
         cameraFade.FadeIn();
 
         yield return new WaitForSeconds(fadeDelay);
         
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(sceneIndex);
 
         cameraFade.FadeOut();
 
-    }
+        yield return new WaitForSeconds(fadeDelay);
 
-    void OnTriggerEnter2D(Collider2D other) 
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            playerPositions[currentLevelIndex] = playerController.GetPlayerPositions();
-            Instantiate(ghostPrefab, playerPositions[currentLevelIndex][0], Quaternion.identity);
-        }
+        loadedLevel = true;
+
     }
 }

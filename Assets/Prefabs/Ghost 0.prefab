@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6762869855943369113}
   - component: {fileID: 6762869855943369094}
   m_Layer: 10
-  m_Name: Ghost
+  m_Name: Ghost 0
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
