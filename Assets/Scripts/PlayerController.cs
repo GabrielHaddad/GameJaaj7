@@ -288,12 +288,16 @@ public class PlayerController : MonoBehaviour
         joint2D.breakForce = 5000f;
     }
 
-    void Die()
+    public void Die()
     {
         
         StartCoroutine(CameraFadeDeath());
         StartCoroutine(StopMovementPlayer(fadeDelayDeath));
+        StartCoroutine(StopCollisionGhost());
+    }
 
+    void ResetPosition()
+    {
         transform.position = playerPosition[0];
         playerPosition = new List<Vector3>();
     }
@@ -303,6 +307,8 @@ public class PlayerController : MonoBehaviour
         cameraFade.FadeIn();
 
         yield return new WaitForSeconds(fadeDelayDeath);
+
+        ResetPosition();
         
         cameraFade.FadeOut();
     }
@@ -330,7 +336,6 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Ghost" && canCollideGhost)
         {
             Die();
-            StartCoroutine(StopCollisionGhost());
         }
     }
 
