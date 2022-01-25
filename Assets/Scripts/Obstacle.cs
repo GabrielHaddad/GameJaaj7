@@ -9,7 +9,13 @@ public class Obstacle : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerController>().Die();
+            PlayerController player = other.GetComponent<PlayerController>();
+            bool canPlayerCollide = player.CanPlayerCollide();
+
+            if (canPlayerCollide)
+            {
+                player.Die();
+            }
         }
     }
 }

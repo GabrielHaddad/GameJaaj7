@@ -45,9 +45,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ghost Stalk")]
     [SerializeField] float registerPositionDelay = 0.5f;
-    [SerializeField] float coolDownGhostCollision = 1f;
+    [SerializeField] float coolDownCollision = 1f;
     List<Vector3> playerPosition = new List<Vector3>();
-    bool canCollideGhost = true;
+    bool canCollide = true;
 
     CameraFade cameraFade;
     [SerializeField] float fadeDelayDeath = 0.5f;
@@ -302,6 +302,11 @@ public class PlayerController : MonoBehaviour
         playerPosition = new List<Vector3>();
     }
 
+    public bool CanPlayerCollide()
+    {
+        return canCollide;
+    }
+
     IEnumerator CameraFadeDeath()
     {
         cameraFade.FadeIn();
@@ -315,11 +320,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator StopCollisionGhost()
     {
-        canCollideGhost = false;
+        canCollide = false;
 
-        yield return new WaitForSeconds(coolDownGhostCollision);
+        yield return new WaitForSeconds(coolDownCollision);
 
-        canCollideGhost = true;
+        canCollide = true;
 
     }
 
@@ -333,7 +338,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Ghost" && canCollideGhost)
+        if (other.tag == "Ghost" && canCollide)
         {
             Die();
         }

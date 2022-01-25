@@ -9,7 +9,6 @@ public class SmashObstacle : MonoBehaviour
     [SerializeField] BoxCollider2D bottomBox;
     [SerializeField] float killCoolDownDelay = 1f;
     PlayerController playerController;
-    bool canKill = true;
 
     void Awake() 
     {
@@ -26,18 +25,11 @@ public class SmashObstacle : MonoBehaviour
         bool topTouchingPlayer = topBox.IsTouchingLayers(playerLayer);
         bool bottomTouchingPlayer = bottomBox.IsTouchingLayers(playerLayer);
 
-        if (topTouchingPlayer && bottomTouchingPlayer && canKill)
-        {
-            Debug.Log("Morre");
-            playerController.Die();
-            StartCoroutine(KillCoolDown());
-        }
-    }
+        bool canKillPlayer = playerController.CanPlayerCollide();
 
-    IEnumerator KillCoolDown()
-    {
-        canKill = false;
-        yield return new WaitForSeconds(killCoolDownDelay);
-        canKill = true;
+        if (topTouchingPlayer && bottomTouchingPlayer && canKillPlayer)
+        {
+            playerController.Die();
+        }
     }
 }
