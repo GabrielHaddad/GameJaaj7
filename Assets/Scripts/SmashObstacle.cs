@@ -7,7 +7,6 @@ public class SmashObstacle : MonoBehaviour
     [SerializeField] LayerMask playerLayer;
     [SerializeField] BoxCollider2D topBox;
     [SerializeField] BoxCollider2D bottomBox;
-    [SerializeField] float killCoolDownDelay = 1f;
     PlayerController playerController;
 
     void Awake() 
