@@ -21,7 +21,7 @@ TagManager:
   - Bullet
   - Gun
   - Spikes
-  - 
+  - Background
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3684159247
+    locked: 0
+  - name: Tiles
+    uniqueID: 543149505
     locked: 0
   - name: Player
     uniqueID: 2572279775
