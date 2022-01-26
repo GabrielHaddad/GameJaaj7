@@ -12,6 +12,10 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] AudioClip grapplingClip;
     [SerializeField] [Range(0f, 1f)] float grapplingVolume = 1f;
 
+    [Header("Laser")]
+    [SerializeField] AudioClip laserClip;
+    [SerializeField] [Range(0f, 1f)] float laserVolume = 1f;
+
     static AudioPlayer instance;
 
     void ManageSingleton()
@@ -46,6 +50,14 @@ public class AudioPlayer : MonoBehaviour
         if (grapplingClip != null)
         {
             PlayClip(grapplingClip, grapplingVolume);
+        }
+    }
+
+    public void PlayLaserClip()
+    {
+        if (laserClip != null)
+        {
+            PlayClip(laserClip, laserVolume);
         }
     }
 

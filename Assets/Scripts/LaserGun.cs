@@ -9,6 +9,13 @@ public class LaserGun : MonoBehaviour
     [SerializeField] float projectileLifetime = 1f;
     [SerializeField] float baseFiringRate = 0.5f;
 
+    AudioPlayer audioPlayer;
+
+    void Awake() 
+    {
+        audioPlayer = FindObjectOfType<AudioPlayer>();
+    }
+
     void Start()
     {
         StartCoroutine(FireContinuously());
@@ -20,6 +27,8 @@ public class LaserGun : MonoBehaviour
         {
             GameObject instance = Instantiate(laserBullet, 
                                     transform.position, transform.rotation);
+
+            audioPlayer.PlayLaserClip();
                         
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
 

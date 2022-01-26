@@ -7033,6 +7033,8 @@ MonoBehaviour:
   dashVolume: 0.5
   grapplingClip: {fileID: 8300000, guid: 3a8222320de3ed14aaab06d9313323d4, type: 3}
   grapplingVolume: 0.6
+  laserClip: {fileID: 8300000, guid: 7d1ab445e20909f47a8ebb8f1fd1ff19, type: 3}
+  laserVolume: 0.5
 --- !u!82 &1219128329
 AudioSource:
   m_ObjectHideFlags: 0
