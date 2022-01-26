@@ -51,6 +51,9 @@ TagManager:
   - name: Player
     uniqueID: 2572279775
     locked: 0
+  - name: Foreground
+    uniqueID: 2558181999
+    locked: 0
   - name: SmashObstacle
     uniqueID: 1344848097
     locked: 0
