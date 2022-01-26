@@ -266,6 +266,7 @@ public class PlayerController : MonoBehaviour
             grapplePoint = hit.point;
             ConfigureSpringJoint();
             joint2D.enabled = true;
+            audioPlayer.PlayGrapplingClip();
         }
     }
 

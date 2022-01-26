@@ -7,6 +7,11 @@ public class AudioPlayer : MonoBehaviour
     [Header("Dash")]
     [SerializeField] AudioClip dashClip;
     [SerializeField] [Range(0f, 1f)] float dashVolume = 1f;
+
+    [Header("Grappling Hook")]
+    [SerializeField] AudioClip grapplingClip;
+    [SerializeField] [Range(0f, 1f)] float grapplingVolume = 1f;
+
     static AudioPlayer instance;
 
     void ManageSingleton()
@@ -33,6 +38,14 @@ public class AudioPlayer : MonoBehaviour
         if (dashClip != null)
         {
             PlayClip(dashClip, dashVolume);
+        }
+    }
+
+    public void PlayGrapplingClip()
+    {
+        if (grapplingClip != null)
+        {
+            PlayClip(grapplingClip, grapplingVolume);
         }
     }
 
