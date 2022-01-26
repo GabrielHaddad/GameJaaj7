@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             Run();
+            FlipSprite();
 
             if (canJump)
             {
@@ -117,6 +118,17 @@ public class PlayerController : MonoBehaviour
         {
             DrawRope();
         }
+    }
+
+    void FlipSprite()
+    {
+        bool playerHasHorizontalSpeed = Mathf.Abs(rb2d.velocity.x) > Mathf.Epsilon;
+
+        if (playerHasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(rb2d.velocity.x), 1f);
+        }
+
     }
 
     IEnumerator RegisterPlayerPosition()
@@ -207,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
         if (isPlayerNotMoving)
         {
-            dashForce = new Vector2(dashDistance, 0f);
+            dashForce = new Vector2(dashDistance * Mathf.Sign(transform.localScale.x), 0f);
         }
         else
         {
@@ -231,7 +243,8 @@ public class PlayerController : MonoBehaviour
 
     void PlayDashParticleEffect()
     {
-        ParticleSystem instance = Instantiate(dashEffect, transform.position, Quaternion.Euler(0f, 0f, -90f), transform);
+        float direction = Mathf.Sign(transform.localScale.x);
+        ParticleSystem instance = Instantiate(dashEffect, transform.position, Quaternion.Euler(0f, 0f, transform.rotation.z * direction), transform);
         Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
     }
 
