@@ -18,4 +18,18 @@ public class Obstacle : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerStay2D(Collider2D other) 
+    {
+        if (other.tag == "Player")
+        {
+            PlayerController player = other.GetComponent<PlayerController>();
+            bool canPlayerCollide = player.CanPlayerCollide();
+
+            if (canPlayerCollide)
+            {
+                player.Die();
+            }
+        }
+    }
 }

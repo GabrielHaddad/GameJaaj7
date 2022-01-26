@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     bool canCollide = true;
 
     CameraFade cameraFade;
-    [SerializeField] float fadeDelayDeath = 0.5f;
+    [SerializeField] float fadeDelayDeath = 1f;
 
     void Awake()
     {
@@ -290,10 +290,9 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        
+        StartCoroutine(StopCollisionGhost());
         StartCoroutine(CameraFadeDeath());
         StartCoroutine(StopMovementPlayer(fadeDelayDeath));
-        StartCoroutine(StopCollisionGhost());
     }
 
     void ResetPosition()
