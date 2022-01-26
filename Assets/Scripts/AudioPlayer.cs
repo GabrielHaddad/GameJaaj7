@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
+    [Header("Dash")]
+    [SerializeField] AudioClip dashClip;
+    [SerializeField] [Range(0f, 1f)] float dashVolume = 1f;
     static AudioPlayer instance;
 
     void ManageSingleton()
@@ -25,13 +28,21 @@ public class AudioPlayer : MonoBehaviour
         ManageSingleton();
     }
 
-    void Start()
+    public void PlayDashClip()
     {
-        
+        if (dashClip != null)
+        {
+            PlayClip(dashClip, dashVolume);
+        }
     }
 
-    void Update()
+    private void PlayClip(AudioClip clip, float volume)
     {
-        
+        if (clip != null)
+        {
+            Vector3 cameraPos = Camera.main.transform.position;
+            AudioSource.PlayClipAtPoint(clip, 
+                cameraPos, volume);
+        }
     }
 }

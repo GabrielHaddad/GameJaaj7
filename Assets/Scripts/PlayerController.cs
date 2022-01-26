@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     bool canCollide = true;
 
     CameraFade cameraFade;
+    AudioPlayer audioPlayer;
     [SerializeField] float fadeDelayDeath = 1f;
 
     void Awake()
@@ -60,6 +61,7 @@ public class PlayerController : MonoBehaviour
         joint2D = GetComponent<SpringJoint2D>();
 
         cameraFade = FindObjectOfType<CameraFade>();
+        audioPlayer = FindObjectOfType<AudioPlayer>();
     }
 
     void Start()
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
             if (canDash && !isDashing)
             {
                 StartCoroutine(Dash());
+                audioPlayer.PlayDashClip();
                 canDash = false;
             }
         }

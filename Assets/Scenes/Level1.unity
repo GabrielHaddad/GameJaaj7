@@ -6613,7 +6613,7 @@ MonoBehaviour:
   isWallJumpable:
     serializedVersion: 2
     m_Bits: 512
-  wallSlideSpeed: 4
+  wallSlideSpeed: 2
   wallJumpForce: 300
   stopMovementWallJump: 0.3
   registerPositionDelay: 0.5
@@ -6919,6 +6919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c79a516cd93f2b447a4ba81873620e6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashClip: {fileID: 8300000, guid: 846b49b5a5ac01946bd3762f81a4155f, type: 3}
+  dashVolume: 0.5
 --- !u!82 &1219128329
 AudioSource:
   m_ObjectHideFlags: 0
