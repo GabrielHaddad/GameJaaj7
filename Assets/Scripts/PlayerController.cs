@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform grappleGunStartPoint;
     [SerializeField] LayerMask isGrappable;
     [SerializeField] float distanceBetweenAtachedBodies;
+    [SerializeField] float distanceAllowGrapple = 5f;
     Vector3 clickedWorldPoint;
     Vector2 grapplePoint;
     bool isGrapling = false;
@@ -260,7 +261,7 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(clickedWorldPoint, difference, -grapplingDistance, isGrappable);
 
-        if (hit.collider != null)
+        if (hit.collider != null && CheckGrappleDistance(hit.point))
         {
             isGrapling = true;
             grapplePoint = hit.point;
@@ -268,6 +269,18 @@ public class PlayerController : MonoBehaviour
             joint2D.enabled = true;
             audioPlayer.PlayGrapplingClip();
         }
+    }
+
+    bool CheckGrappleDistance(Vector2 point)
+    {
+        float distance = Vector2.Distance(transform.position, point);
+
+        if (distance > distanceAllowGrapple)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     void ConfigureSpringJoint()
