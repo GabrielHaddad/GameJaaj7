@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GhostSpawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> ghostPrefabs;
+    [SerializeField] GameObject ghostPrefabs;
     Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
     int previousLevelIndex = 0;
     PlayerController playerController;
@@ -30,7 +30,6 @@ public class GhostSpawner : MonoBehaviour
     void Awake()
     {
         ManageSingleton();
-        playerController = FindObjectOfType<PlayerController>();
         levelManager = FindObjectOfType<LevelManager>();
     }
 
@@ -38,16 +37,16 @@ public class GhostSpawner : MonoBehaviour
     {
         if (levelManager.HasLoadedLevel() && canSpawn)
         {
-            SpawnGhosts(levelManager.GetActiveSceneIndex() + 1);
+            SpawnGhosts(levelManager.GetActiveSceneIndex() - 1);
             canSpawn = false;
         }
     }
 
     void SpawnGhosts(int currentLevelIndex)
     {
-        for (int i = 0; i <= currentLevelIndex - 1; i++)
+        for (int i = 0; i < currentLevelIndex; i++)
         {
-            GameObject instance = Instantiate(ghostPrefabs[i], playerPositions[i][0], Quaternion.identity);
+            GameObject instance = Instantiate(ghostPrefabs, playerPositions[i][0], Quaternion.identity);
             GhostMechanic ghost = instance.GetComponent<GhostMechanic>();
 
             ghost.SetPlayerPositions(playerPositions[i]);
@@ -55,15 +54,15 @@ public class GhostSpawner : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void SpawnNewLevel()
     {
-        if (other.tag == "Player")
-        {
-            previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
-            playerPositions[previousLevelIndex] = playerController.GetPlayerPositions();
+        previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
+        playerPositions[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerPositions();
 
-            levelManager.LoadNextLevel();
-            canSpawn = true;
-        }
+        if (levelManager.GetActiveSceneIndex() == 2)
+        Debug.Log(playerPositions[0].Equals(playerPositions[1]));
+
+        levelManager.LoadNextLevel();
+        canSpawn = true;
     }
 }
