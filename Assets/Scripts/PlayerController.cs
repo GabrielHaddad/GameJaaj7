@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     CameraFade cameraFade;
     AudioPlayer audioPlayer;
+    LevelManager levelManager;
     [SerializeField] float fadeDelayDeath = 1f;
 
     void Awake()
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
 
         cameraFade = FindObjectOfType<CameraFade>();
         audioPlayer = FindObjectOfType<AudioPlayer>();
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
     void Start()
@@ -323,6 +325,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(StopCollisionGhost());
         StartCoroutine(CameraFadeDeath());
         StartCoroutine(StopMovementPlayer(fadeDelayDeath));
+
+        levelManager.AddToDeathCount();
     }
 
     void ResetPosition()

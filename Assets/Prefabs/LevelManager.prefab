@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDelay: 0.5
+  deathText: {fileID: 0}
+  levelText: {fileID: 0}

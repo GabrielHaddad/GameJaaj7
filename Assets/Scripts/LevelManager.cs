@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] float fadeDelay = 1f;
+    [SerializeField] TextMeshProUGUI deathText;
+    [SerializeField] TextMeshProUGUI levelText;
+    int deathCount = 0;
     CameraFade cameraFade;
     bool loadedLevel = false;
 
@@ -29,6 +33,19 @@ public class LevelManager : MonoBehaviour
     {
         ManageSingleton();
         cameraFade = FindObjectOfType<CameraFade>();
+    }
+
+    void Update() 
+    {
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;
+        int sceneCount = SceneManager.sceneCountInBuildSettings - 1;
+        deathText.text = "DEATH COUNT - " + deathCount;
+        levelText.text = "LEVEL - " + currentLevel + "/" + sceneCount;
+    }
+
+    public void AddToDeathCount()
+    {
+        deathCount++;
     }
 
     public void LoadNextLevel()

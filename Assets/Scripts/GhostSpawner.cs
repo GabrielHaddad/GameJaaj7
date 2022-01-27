@@ -38,21 +38,16 @@ public class GhostSpawner : MonoBehaviour
     {
         if (levelManager.HasLoadedLevel() && canSpawn)
         {
-            SpawnGhosts(previousLevelIndex + 1);
+            SpawnGhosts(levelManager.GetActiveSceneIndex() + 1);
             canSpawn = false;
         }
     }
 
     void SpawnGhosts(int currentLevelIndex)
     {
-        Debug.Log("Current Level Index" + currentLevelIndex);
-
         for (int i = 0; i <= currentLevelIndex - 1; i++)
         {
-            Debug.Log("i" + i);
-
             GameObject instance = Instantiate(ghostPrefabs[i], playerPositions[i][0], Quaternion.identity);
-            Debug.Log("Instance", instance);
             GhostMechanic ghost = instance.GetComponent<GhostMechanic>();
 
             ghost.SetPlayerPositions(playerPositions[i]);
@@ -64,7 +59,7 @@ public class GhostSpawner : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            previousLevelIndex = levelManager.GetActiveSceneIndex();
+            previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
             playerPositions[previousLevelIndex] = playerController.GetPlayerPositions();
 
             levelManager.LoadNextLevel();
