@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(clickedWorldPoint, difference, -grapplingDistance, isGrappable);
 
-        if (hit.collider != null && CheckGrappleDistance(hit.point))
+        if (hit.collider != null && CheckGrappleDistance(clickedWorldPoint))
         {
             isGrapling = true;
             grapplePoint = hit.point;
