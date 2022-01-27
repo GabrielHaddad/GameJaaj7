@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostSpawner : MonoBehaviour
 {
     [SerializeField] GameObject ghostPrefabs;
+    [SerializeField] float delayGhostSpawn = 2f;
     Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
     Dictionary<int, List<bool>> playerRunning = new Dictionary<int, List<bool>>();
     Dictionary<int, List<bool>> playerDashing = new Dictionary<int, List<bool>>();
@@ -40,13 +41,15 @@ public class GhostSpawner : MonoBehaviour
     {
         if (levelManager.HasLoadedLevel() && canSpawn)
         {
-            SpawnGhosts(levelManager.GetActiveSceneIndex() - 1);
+            StartCoroutine(SpawnGhosts(levelManager.GetActiveSceneIndex() - 1));
             canSpawn = false;
         }
     }
 
-    void SpawnGhosts(int currentLevelIndex)
+    IEnumerator SpawnGhosts(int currentLevelIndex)
     {
+        yield return new WaitForSeconds(delayGhostSpawn);
+        
         for (int i = 0; i < currentLevelIndex; i++)
         {
             GameObject instance = Instantiate(ghostPrefabs, playerPositions[i][0], Quaternion.identity);
