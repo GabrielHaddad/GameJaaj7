@@ -144,5 +144,9 @@ MonoBehaviour:
   dashVolume: 0.5
   grapplingClip: {fileID: 8300000, guid: 3a8222320de3ed14aaab06d9313323d4, type: 3}
   grapplingVolume: 0.6
+  jumpClip:
+  - {fileID: 8300000, guid: c0d52aa8632899945a7004bebd6a2193, type: 3}
+  - {fileID: 8300000, guid: 89e4b8cb922b5814faf3b701f179923f, type: 3}
+  jumpVolume: 0.8
   laserClip: {fileID: 8300000, guid: 7d1ab445e20909f47a8ebb8f1fd1ff19, type: 3}
   laserVolume: 0.5

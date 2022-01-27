@@ -188,6 +188,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(StopMovementPlayer(stopMovementWallJump));
         }
 
+        audioPlayer.PlayJumpClip();
+
     }
 
     void CheckIfIsWallSliding()

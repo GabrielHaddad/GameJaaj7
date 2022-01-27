@@ -12,6 +12,10 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] AudioClip grapplingClip;
     [SerializeField] [Range(0f, 1f)] float grapplingVolume = 1f;
 
+    [Header("Jump")]
+    [SerializeField] List<AudioClip> jumpClip;
+    [SerializeField] [Range(0f, 1f)] float jumpVolume = 1f;
+
     [Header("Laser")]
     [SerializeField] AudioClip laserClip;
     [SerializeField] [Range(0f, 1f)] float laserVolume = 1f;
@@ -58,6 +62,15 @@ public class AudioPlayer : MonoBehaviour
         if (laserClip != null)
         {
             PlayClip(laserClip, laserVolume);
+        }
+    }
+
+    public void PlayJumpClip()
+    {
+        if (jumpClip != null)
+        {
+            int random = Random.Range(0, jumpClip.Count);
+            PlayClip(jumpClip[random], jumpVolume);
         }
     }
 
