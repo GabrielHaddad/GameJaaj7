@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     float moveInput;
     bool canMove = true;
     bool canJump = false;
+    bool isRunning = false;
 
     [Header("Dash")]
     [SerializeField] float dashDistance = 15f;
@@ -45,14 +46,18 @@ public class PlayerController : MonoBehaviour
     bool isWallSliding = false;
 
     [Header("Ghost Stalk")]
-    [SerializeField] float registerPositionDelay = 0.5f;
+    [SerializeField] float registerPositionDelay = 0.1f;
     [SerializeField] float coolDownCollision = 1f;
-    List<Vector3> playerPosition = new List<Vector3>();
+    List<Vector3> playerPositions = new List<Vector3>();
+    List<Vector3> playerScale = new List<Vector3>();
+    List<bool> playerRunning = new List<bool>();
+    List<bool> playerDashing = new List<bool>();
     bool canCollide = true;
 
     CameraFade cameraFade;
     AudioPlayer audioPlayer;
     LevelManager levelManager;
+    Animator animator;
     [SerializeField] float fadeDelayDeath = 1f;
 
     void Awake()
@@ -61,6 +66,7 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         joint2D = GetComponent<SpringJoint2D>();
+        animator = GetComponent<Animator>();
 
         cameraFade = FindObjectOfType<CameraFade>();
         audioPlayer = FindObjectOfType<AudioPlayer>();
@@ -75,6 +81,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
+        animator.SetBool("isDashing", isDashing);
 
         StartCoroutine(RegisterPlayerPosition());
 
@@ -141,18 +148,39 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(registerPositionDelay);
 
-        playerPosition.Add(transform.position);
+        playerPositions.Add(transform.position);
+        playerScale.Add(transform.localScale);
+        playerRunning.Add(isRunning);
+        playerDashing.Add(isDashing);
     }
 
     public List<Vector3> GetPlayerPositions()
     {
-        return playerPosition;
+        return playerPositions;
+    }
+
+    public List<Vector3> GetPlayerScale()
+    {
+        return playerScale;
+    }
+
+    public List<bool> GetPlayerRunning()
+    {
+        return playerRunning;
+    }
+
+    public List<bool> GetPlayerDashing()
+    {
+        return playerDashing;
     }
 
     void Run()
     {
         float xMovement = moveInput * runSpeed;
         bool isPlayerNotMoving = Mathf.Abs(xMovement) < Mathf.Epsilon;
+        isRunning = !isPlayerNotMoving;
+
+        animator.SetBool("isRunning", isRunning);
 
         Vector2 playerVelocity = new Vector2(xMovement, rb2d.velocity.y);
 
@@ -333,8 +361,8 @@ public class PlayerController : MonoBehaviour
 
     void ResetPosition()
     {
-        transform.position = playerPosition[0];
-        playerPosition = new List<Vector3>();
+        transform.position = playerPositions[0];
+        playerPositions = new List<Vector3>();
     }
 
     public bool CanPlayerCollide()

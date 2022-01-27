@@ -171,7 +171,7 @@ MonoBehaviour:
   wallSlideSpeed: 2
   wallJumpForce: 300
   stopMovementWallJump: 0.3
-  registerPositionDelay: 0.5
+  registerPositionDelay: 0.1
   coolDownCollision: 1
   fadeDelayDeath: 0.5
 --- !u!120 &7969100359382386047

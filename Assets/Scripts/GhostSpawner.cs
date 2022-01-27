@@ -6,6 +6,9 @@ public class GhostSpawner : MonoBehaviour
 {
     [SerializeField] GameObject ghostPrefabs;
     Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
+    Dictionary<int, List<bool>> playerRunning = new Dictionary<int, List<bool>>();
+    Dictionary<int, List<bool>> playerDashing = new Dictionary<int, List<bool>>();
+    Dictionary<int, List<Vector3>> playerScale = new Dictionary<int, List<Vector3>>();
     int previousLevelIndex = 0;
     PlayerController playerController;
     LevelManager levelManager;
@@ -50,6 +53,9 @@ public class GhostSpawner : MonoBehaviour
             GhostMechanic ghost = instance.GetComponent<GhostMechanic>();
 
             ghost.SetPlayerPositions(playerPositions[i]);
+            ghost.SetPlayerRunning(playerRunning[i]);
+            ghost.SetPlayerDashing(playerDashing[i]);
+            ghost.SetPlayerScale(playerScale[i]);
             ghost.EnableMovement();
         }
     }
@@ -58,6 +64,9 @@ public class GhostSpawner : MonoBehaviour
     {
         previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
         playerPositions[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerPositions();
+        playerRunning[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerRunning();
+        playerDashing[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerDashing();
+        playerScale[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerScale();
 
         levelManager.LoadNextLevel();
         canSpawn = true;
