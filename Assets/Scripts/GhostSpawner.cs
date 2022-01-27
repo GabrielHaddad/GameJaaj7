@@ -59,9 +59,6 @@ public class GhostSpawner : MonoBehaviour
         previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
         playerPositions[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerPositions();
 
-        if (levelManager.GetActiveSceneIndex() == 2)
-        Debug.Log(playerPositions[0].Equals(playerPositions[1]));
-
         levelManager.LoadNextLevel();
         canSpawn = true;
     }
