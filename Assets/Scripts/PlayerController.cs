@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckIfIsWallSliding();
+        CheckIfDashIsOver();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -236,6 +237,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void CheckIfDashIsOver()
+    {
+        bool isTouchingGround = boxCollider2D.IsTouchingLayers(isGround);
+        if (isTouchingGround || isGrapling)
+        {
+            isDashing = false;
+        }
+    }
+
 
     IEnumerator StopMovementPlayer(float stopTime)
     {
@@ -273,8 +283,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCoolDown);
 
         canMove = true;
-        isDashing = false;
         rb2d.gravityScale = gravity;
+        //isDashing = false;
     }
 
     void PlayDashParticleEffect()

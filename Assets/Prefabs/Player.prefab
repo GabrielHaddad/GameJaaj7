@@ -162,8 +162,8 @@ MonoBehaviour:
     m_Bits: 256
   runSpeed: 15
   jumpForce: 200
-  dashDistance: 200
-  dashCoolDown: 0.3
+  dashDistance: 50
+  dashCoolDown: 0.5
   dashEffect: {fileID: 7834778462609047403, guid: 84ff85c0115666741aceb989bbb8a105, type: 3}
   isWallJumpable:
     serializedVersion: 2
