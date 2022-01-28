@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        deathCount = 0;
         SceneManager.LoadScene(0);
     }
 
