@@ -9,6 +9,8 @@ public class GhostSpawner : MonoBehaviour
     Dictionary<int, List<Vector3>> playerPositions = new Dictionary<int, List<Vector3>>();
     Dictionary<int, List<bool>> playerRunning = new Dictionary<int, List<bool>>();
     Dictionary<int, List<bool>> playerDashing = new Dictionary<int, List<bool>>();
+    Dictionary<int, List<bool>> playerGrappling = new Dictionary<int, List<bool>>();
+    Dictionary<int, List<bool>> playerJumping = new Dictionary<int, List<bool>>();
     Dictionary<int, List<Vector3>> playerScale = new Dictionary<int, List<Vector3>>();
     int previousLevelIndex = 0;
     PlayerController playerController;
@@ -59,6 +61,8 @@ public class GhostSpawner : MonoBehaviour
             ghost.SetPlayerRunning(playerRunning[i]);
             ghost.SetPlayerDashing(playerDashing[i]);
             ghost.SetPlayerScale(playerScale[i]);
+            ghost.SetPlayerJumping(playerJumping[i]);
+            ghost.SetPlayerGrappling(playerGrappling[i]);
             ghost.EnableMovement();
         }
     }
@@ -66,10 +70,14 @@ public class GhostSpawner : MonoBehaviour
     public void SpawnNewLevel()
     {
         previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
-        playerPositions[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerPositions();
-        playerRunning[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerRunning();
-        playerDashing[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerDashing();
-        playerScale[previousLevelIndex] = FindObjectOfType<PlayerController>().GetPlayerScale();
+
+        PlayerController player = FindObjectOfType<PlayerController>();
+        playerPositions[previousLevelIndex] = player.GetPlayerPositions();
+        playerRunning[previousLevelIndex] = player.GetPlayerRunning();
+        playerDashing[previousLevelIndex] = player.GetPlayerDashing();
+        playerScale[previousLevelIndex] = player.GetPlayerScale();
+        playerJumping[previousLevelIndex] = player.GetPlayerJumping();
+        playerGrappling[previousLevelIndex] = player.GetPlayerGrappling();
 
         levelManager.LoadNextLevel();
         canSpawn = true;

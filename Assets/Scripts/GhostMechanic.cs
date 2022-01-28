@@ -11,6 +11,8 @@ public class GhostMechanic : MonoBehaviour
     List<Vector3> playerScale;
     List<bool> playerRunning;
     List<bool> playerDashing;
+    List<bool> playerJumping;
+    List<bool> playerGrapling;
     Animator ghostAnimator;
 
     void Awake() 
@@ -51,6 +53,16 @@ public class GhostMechanic : MonoBehaviour
         playerDashing = dashingPos;
     }
 
+    public void SetPlayerJumping(List<bool> jumping)
+    {
+        playerJumping = jumping;
+    }
+
+    public void SetPlayerGrappling(List<bool> grappling)
+    {
+        playerGrapling = grappling;
+    }
+
     public void SetPlayerScale(List<Vector3> scales)
     {
         playerScale = scales;
@@ -62,6 +74,8 @@ public class GhostMechanic : MonoBehaviour
         {
             ghostAnimator.SetBool("isRunning", playerRunning[positionIndex]);
             ghostAnimator.SetBool("isDashing", playerDashing[positionIndex]);
+            ghostAnimator.SetBool("isGrapling", playerGrapling[positionIndex]);
+            ghostAnimator.SetBool("isJumping", playerJumping[positionIndex]);
             FlipSprite(positionIndex);
 
 

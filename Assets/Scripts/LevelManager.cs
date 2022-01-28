@@ -53,6 +53,11 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public int GetActiveSceneIndex()
     {
         return SceneManager.GetActiveScene().buildIndex;

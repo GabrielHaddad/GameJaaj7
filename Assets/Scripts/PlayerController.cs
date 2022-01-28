@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
     bool canJump = false;
     bool isRunning = false;
+    bool isJumping = false;
 
     [Header("Dash")]
     [SerializeField] float dashDistance = 15f;
@@ -46,12 +47,14 @@ public class PlayerController : MonoBehaviour
     bool isWallSliding = false;
 
     [Header("Ghost Stalk")]
-    [SerializeField] float registerPositionDelay = 0.1f;
+    [SerializeField] float registerPositionDelay = 0.01f;
     [SerializeField] float coolDownCollision = 1f;
     List<Vector3> playerPositions = new List<Vector3>();
     List<Vector3> playerScale = new List<Vector3>();
     List<bool> playerRunning = new List<bool>();
     List<bool> playerDashing = new List<bool>();
+    List<bool> playerGrappling = new List<bool>();
+    List<bool> playerJumping = new List<bool>();
     bool canCollide = true;
 
     CameraFade cameraFade;
@@ -81,7 +84,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
-        animator.SetBool("isDashing", isDashing);
 
         StartCoroutine(RegisterPlayerPosition());
 
@@ -92,6 +94,10 @@ public class PlayerController : MonoBehaviour
 
         CheckIfIsWallSliding();
         CheckIfDashIsOver();
+        CheckIfIsJumping();
+
+        animator.SetBool("isDashing", isDashing);
+        animator.SetBool("isGrapling", isGrapling);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -153,6 +159,8 @@ public class PlayerController : MonoBehaviour
         playerScale.Add(transform.localScale);
         playerRunning.Add(isRunning);
         playerDashing.Add(isDashing);
+        playerGrappling.Add(isGrapling);
+        playerJumping.Add(isJumping);
     }
 
     public List<Vector3> GetPlayerPositions()
@@ -173,6 +181,16 @@ public class PlayerController : MonoBehaviour
     public List<bool> GetPlayerDashing()
     {
         return playerDashing;
+    }
+
+    public List<bool> GetPlayerGrappling()
+    {
+        return playerGrappling;
+    }
+
+    public List<bool> GetPlayerJumping()
+    {
+        return playerJumping;
     }
 
     void Run()
@@ -209,12 +227,14 @@ public class PlayerController : MonoBehaviour
             isGrapling = false;
             joint2D.enabled = false;
             lineRenderer.enabled = false;
+            isJumping = true;
         }
         else if (isWallSliding)
         {
             float movementX = wallJumpForce * -moveInput;
             rb2d.AddForce(new Vector2(movementX, wallJumpForce), ForceMode2D.Impulse);
             StartCoroutine(StopMovementPlayer(stopMovementWallJump));
+            isJumping = true;
         }
 
         audioPlayer.PlayJumpClip();
@@ -235,6 +255,23 @@ public class PlayerController : MonoBehaviour
         {
             isWallSliding = false;
         }
+    }
+
+    void CheckIfIsJumping()
+    {
+        bool isTouchingGround = boxCollider2D.IsTouchingLayers(isGround);
+        bool isTouchingWall = boxCollider2D.IsTouchingLayers(isWallJumpable);
+
+        if ((!isTouchingGround && !isTouchingWall) || isGrapling)
+        {
+            isJumping = true;
+        }
+        else
+        {
+            isJumping = false;
+        }
+
+        animator.SetBool("isJumping", isJumping);
     }
 
     void CheckIfDashIsOver()
