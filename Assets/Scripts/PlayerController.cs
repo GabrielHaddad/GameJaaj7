@@ -376,6 +376,8 @@ public class PlayerController : MonoBehaviour
         joint2D.enabled = false;
         lineRenderer.enabled = false;
         isGrapling = false;
+        isDashing = false;
+        rb2d.velocity = Vector2.zero;
     }
 
     public bool CanPlayerCollide()
