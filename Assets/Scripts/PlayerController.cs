@@ -373,6 +373,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = playerPositions[0];
         playerPositions = new List<Vector3>();
+        joint2D.enabled = false;
         lineRenderer.enabled = false;
         isGrapling = false;
     }
