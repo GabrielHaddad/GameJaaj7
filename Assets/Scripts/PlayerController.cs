@@ -240,7 +240,9 @@ public class PlayerController : MonoBehaviour
     void CheckIfDashIsOver()
     {
         bool isTouchingGround = boxCollider2D.IsTouchingLayers(isGround);
-        if (isTouchingGround || isGrapling)
+        bool isTouchingWall = boxCollider2D.IsTouchingLayers(isWallJumpable);
+
+        if (isTouchingGround || isGrapling || isTouchingWall)
         {
             isDashing = false;
         }
