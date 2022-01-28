@@ -13,6 +13,7 @@ public class GhostMechanic : MonoBehaviour
     List<bool> playerDashing;
     List<bool> playerJumping;
     List<bool> playerGrapling;
+    List<bool> playerSliding;
     Animator ghostAnimator;
 
     void Awake() 
@@ -68,6 +69,11 @@ public class GhostMechanic : MonoBehaviour
         playerScale = scales;
     }
 
+    public void SetPlayerSliding(List<bool> sliding)
+    {
+        playerSliding = sliding;
+    }
+
     void MoveGhost()
     {
         if(positionIndex < playerPositions.Count)
@@ -76,6 +82,7 @@ public class GhostMechanic : MonoBehaviour
             ghostAnimator.SetBool("isDashing", playerDashing[positionIndex]);
             ghostAnimator.SetBool("isGrapling", playerGrapling[positionIndex]);
             ghostAnimator.SetBool("isJumping", playerJumping[positionIndex]);
+            ghostAnimator.SetBool("isWallSliding", playerSliding[positionIndex]);
             FlipSprite(positionIndex);
 
 

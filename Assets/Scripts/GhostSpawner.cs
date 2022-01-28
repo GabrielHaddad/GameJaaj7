@@ -12,6 +12,7 @@ public class GhostSpawner : MonoBehaviour
     Dictionary<int, List<bool>> playerGrappling = new Dictionary<int, List<bool>>();
     Dictionary<int, List<bool>> playerJumping = new Dictionary<int, List<bool>>();
     Dictionary<int, List<Vector3>> playerScale = new Dictionary<int, List<Vector3>>();
+    Dictionary<int, List<bool>> playerSliding= new Dictionary<int, List<bool>>();
     int previousLevelIndex = 0;
     PlayerController playerController;
     LevelManager levelManager;
@@ -63,6 +64,7 @@ public class GhostSpawner : MonoBehaviour
             ghost.SetPlayerScale(playerScale[i]);
             ghost.SetPlayerJumping(playerJumping[i]);
             ghost.SetPlayerGrappling(playerGrappling[i]);
+            ghost.SetPlayerSliding(playerSliding[i]);
             ghost.EnableMovement();
         }
     }
@@ -80,6 +82,7 @@ public class GhostSpawner : MonoBehaviour
             playerScale[previousLevelIndex] = player.GetPlayerScale();
             playerJumping[previousLevelIndex] = player.GetPlayerJumping();
             playerGrappling[previousLevelIndex] = player.GetPlayerGrappling();
+            playerSliding[previousLevelIndex] = player.GetPlayerSliding();
 
             levelManager.LoadNextLevel();
             canSpawn = true;

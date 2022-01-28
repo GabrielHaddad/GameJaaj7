@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
     List<bool> playerDashing = new List<bool>();
     List<bool> playerGrappling = new List<bool>();
     List<bool> playerJumping = new List<bool>();
+    List<bool> playerSliding = new List<bool>();
     bool canCollide = true;
 
     CameraFade cameraFade;
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour
         playerDashing.Add(isDashing);
         playerGrappling.Add(isGrapling);
         playerJumping.Add(isJumping);
+        playerSliding.Add(isWallSliding);
     }
 
     public List<Vector3> GetPlayerPositions()
@@ -191,6 +193,11 @@ public class PlayerController : MonoBehaviour
     public List<bool> GetPlayerJumping()
     {
         return playerJumping;
+    }
+
+    public List<bool> GetPlayerSliding()
+    {
+        return playerSliding;
     }
 
     void Run()
@@ -255,6 +262,8 @@ public class PlayerController : MonoBehaviour
         {
             isWallSliding = false;
         }
+
+        animator.SetBool("isWallSliding", isWallSliding);
     }
 
     void CheckIfIsJumping()
@@ -304,7 +313,7 @@ public class PlayerController : MonoBehaviour
 
         if (isPlayerNotMoving)
         {
-            dashForce = new Vector2(dashDistance * Mathf.Sign(transform.localScale.x), 0f);
+            dashForce = new Vector2(dashDistance * 4f * Mathf.Sign(transform.localScale.x), 0f);
         }
         else
         {
