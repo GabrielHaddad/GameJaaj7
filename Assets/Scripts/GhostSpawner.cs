@@ -69,17 +69,24 @@ public class GhostSpawner : MonoBehaviour
 
     public void SpawnNewLevel()
     {
-        previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
+        if (levelManager.GetActiveSceneIndex() != 4)
+        {
+            previousLevelIndex = levelManager.GetActiveSceneIndex() - 1;
 
-        PlayerController player = FindObjectOfType<PlayerController>();
-        playerPositions[previousLevelIndex] = player.GetPlayerPositions();
-        playerRunning[previousLevelIndex] = player.GetPlayerRunning();
-        playerDashing[previousLevelIndex] = player.GetPlayerDashing();
-        playerScale[previousLevelIndex] = player.GetPlayerScale();
-        playerJumping[previousLevelIndex] = player.GetPlayerJumping();
-        playerGrappling[previousLevelIndex] = player.GetPlayerGrappling();
+            PlayerController player = FindObjectOfType<PlayerController>();
+            playerPositions[previousLevelIndex] = player.GetPlayerPositions();
+            playerRunning[previousLevelIndex] = player.GetPlayerRunning();
+            playerDashing[previousLevelIndex] = player.GetPlayerDashing();
+            playerScale[previousLevelIndex] = player.GetPlayerScale();
+            playerJumping[previousLevelIndex] = player.GetPlayerJumping();
+            playerGrappling[previousLevelIndex] = player.GetPlayerGrappling();
 
-        levelManager.LoadNextLevel();
-        canSpawn = true;
+            levelManager.LoadNextLevel();
+            canSpawn = true;
+        }
+        else
+        {
+            levelManager.LoadMainMenu();
+        }
     }
 }
