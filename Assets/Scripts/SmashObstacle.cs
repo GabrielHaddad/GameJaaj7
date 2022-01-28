@@ -5,8 +5,8 @@ using UnityEngine;
 public class SmashObstacle : MonoBehaviour
 {
     [SerializeField] LayerMask playerLayer;
-    [SerializeField] BoxCollider2D topBox;
-    [SerializeField] BoxCollider2D bottomBox;
+    [SerializeField] CapsuleCollider2D topBox;
+    [SerializeField] CapsuleCollider2D bottomBox;
     PlayerController playerController;
 
     void Awake() 
