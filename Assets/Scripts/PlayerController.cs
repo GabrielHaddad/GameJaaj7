@@ -373,6 +373,8 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = playerPositions[0];
         playerPositions = new List<Vector3>();
+        lineRenderer.enabled = false;
+        isGrapling = false;
     }
 
     public bool CanPlayerCollide()
